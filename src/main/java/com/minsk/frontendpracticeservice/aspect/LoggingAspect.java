@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-    @Around("within(com.aston.frontendpracticeservice.service..*)")
+    @Around("within(com.minsk.frontendpracticeservice.service..*)")
     public Object logMethodExecution(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();
         Object[] args = joinPoint.getArgs();
