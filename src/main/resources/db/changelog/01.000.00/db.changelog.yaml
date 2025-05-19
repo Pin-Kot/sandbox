@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 01.000.00
+      author: K.Pingol
+      logicalFilePath: 01.000.00/db.changelog.yaml
+      changes:
+        - tagDatabase:
+            tag: 01.000.00
+  - include:
+      file: requisites.sql
+      relativeToChangelogFile: true
+  - include:
+      file: users.sql
+      relativeToChangelogFile: true
+  - include:
+      file: users_roles.sql
+      relativeToChangelogFile: true
+  - include:
+      file: data.sql
+      relativeToChangelogFile: true

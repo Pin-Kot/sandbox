@@ -1,0 +1,53 @@
+jwt:
+  secret: ${JWT_SECRET}
+
+auth:
+  default_login: ${AUTH_DEFAULT_LOGIN}
+  default_password: ${AUTH_DEFAULT_PASSWORD}
+  access_token_life_seconds: 3600
+  refresh_token_life_seconds: 60
+
+spring:
+  datasource:
+    url: ${PG_JDBC}
+    username: ${PG_USERNAME}
+    password: ${PG_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  config:
+    import: optional:file:.env[.properties]
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    topics:
+      replication-factor: 3
+      partitions: 3
+      requisites-service:
+        requisites-create-topic-name: requisites-create-topic
+
+    consumer:
+      group-id: requisites-create-group
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 30
+
+logging:
+  level:
+    root: info
+    com.aston.frontendpracticeservice.aspect.com.minsk.frontendpracticeservice.aspect.LoggingAspect: debug

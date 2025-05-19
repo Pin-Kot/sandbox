@@ -1,0 +1,59 @@
+jwt:
+  secret: ${JWT_SECRET}
+
+auth:
+  default_login: ${AUTH_DEFAULT_LOGIN}
+  default_password: ${AUTH_DEFAULT_PASSWORD}
+  access_token_life_seconds: 3600
+  refresh_token_life_seconds: 60
+
+spring:
+  datasource:
+    url: ${PG_JDBC}
+    username: ${PG_USERNAME}
+    password: ${PG_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  config:
+    import: optional:file:.env[.properties]
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    topics:
+      replication-factor: 3
+      partitions: 3
+      requisites-service:
+        requisites-create-topic-name: requisites-create-topic
+
+    producer:
+      acks: all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        delivery.timeout.ms: 20000
+        linger.ms: 0
+        request.timeout.ms: 10000
+        enable.idempotence: true
+        max.in.flight.request.per.connection: 5
+    consumer:
+      group-id: requisites-create-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: latest
+      properties:
+        spring.json.trusted.packages: '*'
+
+logging:
+  level:
+    root: info
+    com.aston.frontendpracticeservice.aspect.com.minsk.frontendpracticeservice.aspect.LoggingAspect: debug
