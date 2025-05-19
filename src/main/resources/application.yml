@@ -50,4 +50,4 @@ spring:
 logging:
   level:
     root: info
-    com.aston.frontendpracticeservice.aspect.com.minsk.frontendpracticeservice.aspect.LoggingAspect: debug
+    com.minsk.frontendpracticeservice.aspect.LoggingAspect: debug
